@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Create your ReCampus account.">
+  <title>Sign Up | ReCampus</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%2314452f'/%3E%3Ccircle cx='20' cy='20' r='6' fill='%233ddc97'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/script.js" defer></script>
+</head>
+<body data-page="signup">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar" aria-label="Main navigation">
+        <a class="brand" href="index.html" aria-label="ReCampus home">
+          <svg class="brand-logo" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+            <rect width="40" height="40" rx="11" fill="#14452f"/>
+            <path d="M11.54 16.92A9 9 0 0 1 26.36 13.64" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"/>
+            <polygon points="27.9,12.1 24.8,15.2 28.6,16" fill="#ffffff"/>
+            <path d="M28.46 23.08A9 9 0 0 1 13.64 26.36" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"/>
+            <polygon points="12.1,27.9 15.2,24.8 11.4,24.1" fill="#ffffff"/>
+            <circle cx="20" cy="20" r="3.4" fill="#3ddc97"/>
+          </svg>
+          <span>ReCampus</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Toggle navigation menu">
+          <span></span>
+        </button>
+        <ul class="nav-links" id="site-menu">
+          <li><a href="index.html" data-page="index">Home</a></li>
+          <li><a href="lost.html" data-page="lost">Lost</a></li>
+          <li><a href="found.html" data-page="found">Found</a></li>
+          <li><a href="borrow.html" data-page="borrow">Borrow</a></li>
+          <li><a href="lend.html" data-page="lend">Lend</a></li>
+          <li><a href="scheduler.html" data-page="scheduler">OS Scheduler</a></li>
+        </ul>
+        <div class="nav-auth" id="nav-auth">
+          <a class="btn btn-ghost btn-small" href="signin.html" data-page="signin">Sign In</a>
+          <a class="btn btn-primary btn-small" href="signup.html" data-page="signup">Sign Up</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-header">
+      <div class="container">
+        <a class="back-link" href="index.html">&larr; Back to Home</a>
+        <h1>Create your account</h1>
+        <p>Join the ReCampus student community.</p>
+      </div>
+    </section>
+    <section class="section" style="padding-top: 8px;">
+      <div class="container">
+        <form class="form-card narrow" id="signup-form" novalidate>
+          <div class="form-grid">
+            <div class="form-group full">
+              <label for="signup-name">Name</label>
+              <input type="text" id="signup-name" name="name" autocomplete="name" maxlength="60" required>
+              <span class="field-error" role="alert"></span>
+            </div>
+            <div class="form-group full">
+              <label for="signup-email">Student email</label>
+              <input type="email" id="signup-email" name="email" placeholder="you@vitstudent.ac.in" autocomplete="email" required>
+              <span class="field-error" role="alert"></span>
+            </div>
+            <div class="form-group full">
+              <label for="signup-password">Password</label>
+              <input type="password" id="signup-password" name="password" autocomplete="new-password" required>
+              <span class="field-hint">At least 8 characters. It is stored only as a salted hash.</span>
+              <span class="field-error" role="alert"></span>
+            </div>
+            <div class="form-group full">
+              <label for="signup-confirm">Confirm password</label>
+              <input type="password" id="signup-confirm" name="confirm" autocomplete="new-password" required>
+              <span class="field-error" role="alert"></span>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-primary btn-block" type="submit">Sign Up</button>
+          </div>
+          <div class="form-message" role="status" aria-live="polite"></div>
+          <p class="form-footer-text">Already have an account? <a href="signin.html">Sign In</a></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <a href="index.html">Home</a>
+        <a href="lost.html">Lost</a>
+        <a href="found.html">Found</a>
+        <a href="borrow.html">Borrow</a>
+        <a href="lend.html">Lend</a>
+        <a href="scheduler.html">OS Scheduler</a>
+      </div>
+      <p>ReCampus is a college project for VIT Chennai students (Flask + SQLite). The OS features are an application-level simulation.</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Live demonstration of non-preemptive priority scheduling, process states, mutual exclusion and resource allocation in ReCampus.">
+  <title>OS Scheduler Dashboard | ReCampus</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%2314452f'/%3E%3Ccircle cx='20' cy='20' r='6' fill='%233ddc97'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/script.js" defer></script>
+</head>
+<body data-page="scheduler">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar" aria-label="Main navigation">
+        <a class="brand" href="index.html" aria-label="ReCampus home">
+          <svg class="brand-logo" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+            <rect width="40" height="40" rx="11" fill="#14452f"/>
+            <path d="M11.54 16.92A9 9 0 0 1 26.36 13.64" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"/>
+            <polygon points="27.9,12.1 24.8,15.2 28.6,16" fill="#ffffff"/>
+            <path d="M28.46 23.08A9 9 0 0 1 13.64 26.36" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"/>
+            <polygon points="12.1,27.9 15.2,24.8 11.4,24.1" fill="#ffffff"/>
+            <circle cx="20" cy="20" r="3.4" fill="#3ddc97"/>
+          </svg>
+          <span>ReCampus</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Toggle navigation menu">
+          <span></span>
+        </button>
+        <ul class="nav-links" id="site-menu">
+          <li><a href="index.html" data-page="index">Home</a></li>
+          <li><a href="lost.html" data-page="lost">Lost</a></li>
+          <li><a href="found.html" data-page="found">Found</a></li>
+          <li><a href="borrow.html" data-page="borrow">Borrow</a></li>
+          <li><a href="lend.html" data-page="lend">Lend</a></li>
+          <li><a href="scheduler.html" data-page="scheduler">OS Scheduler</a></li>
+        </ul>
+        <div class="nav-auth" id="nav-auth">
+          <a class="btn btn-ghost btn-small" href="signin.html" data-page="signin">Sign In</a>
+          <a class="btn btn-primary btn-small" href="signup.html" data-page="signup">Sign Up</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-header">
+      <div class="container">
+        <a class="back-link" href="index.html">&larr; Back to Home</a>
+        <h1>OS Scheduling Dashboard</h1>
+        <p>Lost reports are scheduled like processes. Watch the queue, the running report and every state change, live from the database.</p>
+      </div>
+    </section>
+    <section class="section" style="padding-top: 8px;">
+      <div class="container">
+       
+
+        <h2 class="section-title">Process state diagram</h2>
+        <p class="section-subtitle">Each Lost report moves through three of the classic process states. The numbers are live counts.</p>
+        <div class="state-diagram" id="state-diagram" aria-label="State diagram: Pending to Processing to Completed">
+          <div class="state-node pending"><span class="state-os">Ready</span><strong>Pending</strong><span class="state-count" id="count-pending">0</span></div>
+          <div class="state-arrow" aria-hidden="true"><span>dispatch</span>&rarr;</div>
+          <div class="state-node processing"><span class="state-os">Running</span><strong>Processing</strong><span class="state-count" id="count-processing">0</span></div>
+          <div class="state-arrow" aria-hidden="true"><span>finish</span>&rarr;</div>
+          <div class="state-node completed"><span class="state-os">Terminated</span><strong>Completed</strong><span class="state-count" id="count-completed">0</span></div>
+        </div>
+        <p class="diagram-caption">Pending &rarr; Processing &rarr; Completed &nbsp;|&nbsp; Ready &rarr; Running &rarr; Terminated</p>
+
+        <div class="dash-grid">
+          <div class="dash-panel" id="cpu-panel">
+            <h3>Running now <span class="muted">(the &ldquo;CPU&rdquo;)</span></h3>
+            <div id="cpu-content" class="cpu-content"><p class="muted">Loading&hellip;</p></div>
+          </div>
+          <div class="dash-panel">
+            <h3>Dispatcher controls</h3>
+            <p class="muted" id="sched-role-note">Checking your role&hellip;</p>
+            <div class="control-row">
+              <button class="btn btn-primary" type="button" id="btn-next">Process Next Report</button>
+              <button class="btn btn-secondary" type="button" id="btn-complete">Mark Completed</button>
+            </div>
+            <div class="form-message" id="sched-message" role="status" aria-live="polite"></div>
+            <p class="live-note"><span class="live-dot" aria-hidden="true"></span> Updates automatically every few seconds. <span id="last-refresh"></span></p>
+          </div>
+        </div>
+
+        <h3 class="dash-heading">Ready queue (Pending), in the order the scheduler will pick them</h3>
+        <div class="table-wrap">
+          <table class="data-table" id="queue-table">
+            <thead><tr><th>Next</th><th>PID</th><th>Item</th><th>Priority</th><th>State</th><th>Submitted</th><th>Waiting</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="empty-state" id="queue-empty"><p><strong>The ready queue is empty.</strong></p><p>Submit lost reports on the <a href="lost.html">Lost page</a> to fill it.</p></div>
+
+        <div class="dash-grid" style="margin-top: 28px;">
+          <div>
+            <h3 class="dash-heading">Recently completed</h3>
+            <div class="table-wrap">
+              <table class="data-table" id="completed-table">
+                <thead><tr><th>PID</th><th>Item</th><th>Priority</th><th>State</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <div class="empty-state" id="completed-empty"><p>No report has been completed yet.</p></div>
+          </div>
+          <div>
+            <h3 class="dash-heading">State-change log (saved in SQLite)</h3>
+            <ul class="log-list" id="log-list"></ul>
+            <div class="empty-state" id="log-empty"><p>No state changes recorded yet.</p></div>
+          </div>
+        </div>
+
+        <h3 class="dash-heading" style="margin-top: 28px;">Lend items as exclusive resources</h3>
+        <div class="table-wrap">
+          <table class="data-table" id="resource-table">
+            <thead><tr><th>Item (resource)</th><th>State</th><th>Held by</th><th>Requests waiting</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="empty-state" id="resource-empty"><p>No items have been listed on the <a href="lend.html">Lend page</a> yet.</p></div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top: 8px;" aria-labelledby="concepts-title">
+      <div class="container">
+        <h2 class="section-title" id="concepts-title">OS concepts demonstrated</h2>
+        <p class="section-subtitle">Each card says which concept is shown, how ReCampus implements it, and what you can observe while testing.</p>
+        <div class="concept-grid">
+          <article class="concept-card">
+            <span class="concept-tag">A</span>
+            <h3>Non-preemptive Priority Scheduling with FCFS</h3>
+            <h4>Concept</h4>
+            <p>A CPU-scheduling policy: the dispatcher always picks the ready process with the highest priority. Processes with equal priority run First Come, First Served. <em>Non-preemptive</em> means a running process is never interrupted.</p>
+            <h4>In ReCampus</h4>
+            <p>Each Lost report is a process: its report id is the PID, High/Low is its priority and the submission order is its arrival order. <strong>Process Next Report</strong> picks High before Low, and the lowest PID among equals. A new High report must wait until the running one is completed.</p>
+            <h4>Try it</h4>
+            <p>Submit Low, Low, High on the Lost page. The High report is first in the queue above. Start it, then submit another High: it moves to the top of the queue but does not interrupt the running report.</p>
+          </article>
+          <article class="concept-card">
+            <span class="concept-tag">B</span>
+            <h3>Process state management</h3>
+            <h4>Concept</h4>
+            <p>A process moves through states during its life. A simple model uses Ready, Running and Terminated.</p>
+            <h4>In ReCampus</h4>
+            <table class="mini-table"><thead><tr><th>OS state</th><th>Report state</th></tr></thead>
+              <tbody><tr><td>Ready</td><td>Pending</td></tr><tr><td>Running</td><td>Processing</td></tr><tr><td>Terminated</td><td>Completed</td></tr></tbody></table>
+            <p>Every change is stored in the database and written to the state-change log.</p>
+            <h4>Try it</h4>
+            <p>Watch the coloured counts in the diagram and the badge on each Lost card change after every button press. This model has no &ldquo;waiting/blocked&rdquo; state.</p>
+          </article>
+          <article class="concept-card">
+            <span class="concept-tag">C</span>
+            <h3>Mutual exclusion and concurrency control</h3>
+            <h4>Concept</h4>
+            <p>Only one process may be inside a critical section at a time, so two actors cannot both claim the same exclusive thing.</p>
+            <h4>In ReCampus</h4>
+            <p>Only one report may be Processing. Starting a report runs as one SQLite <code>BEGIN IMMEDIATE</code> transaction that takes the database write lock, checks &ldquo;is anything Processing?&rdquo; and then updates. A <code>UNIQUE</code> index lets the database itself reject a second Processing row. A Python lock alone would not be enough: it only protects one Python process, not the database.</p>
+            <h4>Try it</h4>
+            <p>Sign in as an administrator in two browser tabs and press Process Next Report in both: only one starts a report, the other shows the message &ldquo;already Processing&rdquo;.</p>
+          </article>
+          <article class="concept-card">
+            <span class="concept-tag">D</span>
+            <h3>Resource allocation (exclusive resources)</h3>
+            <h4>Concept</h4>
+            <p>An exclusive resource can be held by one process at a time. It is allocated, used, then released so others can use it.</p>
+            <h4>In ReCampus</h4>
+            <p>A lend item is the resource. Approving a borrow request <em>allocates</em> it (Available &rarr; Borrowed); marking it returned <em>releases</em> it (Borrowed &rarr; Available). Both steps are atomic transactions, and a <code>UNIQUE</code> index allows only one Approved request per item.</p>
+            <h4>Try it</h4>
+            <p>Make two requests for one item. Approve the first, then try to approve the second: it is refused until the item is returned.</p>
+          </article>
+        </div>
+        <!-- <p class="prototype-note" style="margin-top: 24px;"><strong>What this is not.</strong> It is not real CPU scheduling or kernel resource management, and it does not cover deadlocks, memory management or preemption. It is a faithful model of the policies, run on top of a web application and a database.</p> -->
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <a href="index.html">Home</a>
+        <a href="lost.html">Lost</a>
+        <a href="found.html">Found</a>
+        <a href="borrow.html">Borrow</a>
+        <a href="lend.html">Lend</a>
+        <a href="scheduler.html">OS Scheduler</a>
+      </div>
+     
+  </footer>
+</body>
+</html>

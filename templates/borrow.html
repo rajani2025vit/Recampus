@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Browse items VIT Chennai students are willing to lend and request to borrow them.">
+  <title>Borrow Items | ReCampus</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%2314452f'/%3E%3Ccircle cx='20' cy='20' r='6' fill='%233ddc97'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/script.js" defer></script>
+</head>
+<body data-page="borrow">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar" aria-label="Main navigation">
+        <a class="brand" href="index.html" aria-label="ReCampus home">
+          <svg class="brand-logo" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+            <rect width="40" height="40" rx="11" fill="#14452f"/>
+            <path d="M11.54 16.92A9 9 0 0 1 26.36 13.64" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"/>
+            <polygon points="27.9,12.1 24.8,15.2 28.6,16" fill="#ffffff"/>
+            <path d="M28.46 23.08A9 9 0 0 1 13.64 26.36" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"/>
+            <polygon points="12.1,27.9 15.2,24.8 11.4,24.1" fill="#ffffff"/>
+            <circle cx="20" cy="20" r="3.4" fill="#3ddc97"/>
+          </svg>
+          <span>ReCampus</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Toggle navigation menu">
+          <span></span>
+        </button>
+        <ul class="nav-links" id="site-menu">
+          <li><a href="index.html" data-page="index">Home</a></li>
+          <li><a href="lost.html" data-page="lost">Lost</a></li>
+          <li><a href="found.html" data-page="found">Found</a></li>
+          <li><a href="borrow.html" data-page="borrow">Borrow</a></li>
+          <li><a href="lend.html" data-page="lend">Lend</a></li>
+          <li><a href="scheduler.html" data-page="scheduler">OS Scheduler</a></li>
+        </ul>
+        <div class="nav-auth" id="nav-auth">
+          <a class="btn btn-ghost btn-small" href="signin.html" data-page="signin">Sign In</a>
+          <a class="btn btn-primary btn-small" href="signup.html" data-page="signup">Sign Up</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-header">
+      <div class="container">
+        <a class="back-link" href="index.html">&larr; Back to Home</a>
+        <h1>Borrow from fellow students</h1>
+        <p>Browse items other students have offered, then send a request to the lender. Items come from the Lend page.</p>
+      </div>
+    </section>
+    <section class="section" id="borrow-listing" style="padding-top: 8px;">
+      <div class="container">
+        <p class="prototype-note" data-auth-note data-auth-action="request an item"><strong>Checking your sign-in&hellip;</strong></p>
+        <div class="filter-bar">
+          <div class="form-group">
+            <label for="borrow-search">Search items</label>
+            <input type="search" id="borrow-search" placeholder="Search by name or description">
+          </div>
+          <div class="form-group">
+            <label for="borrow-category">Category</label>
+            <select id="borrow-category">
+              <option value="all">All categories</option>
+              <option>Electronics</option>
+              <option>Books and notes</option>
+              <option>ID cards and wallets</option>
+              <option>Keys</option>
+              <option>Bags</option>
+              <option>Clothing and accessories</option>
+              <option>Stationery</option>
+              <option>Lab equipment</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <p class="result-count" id="borrow-count" aria-live="polite" data-count></p>
+        <div class="loading-state" role="status"><span class="spinner" aria-hidden="true"></span> Loading items from the database&hellip;</div>
+        <div class="error-state" role="alert">
+          <p><strong>Could not load the items.</strong></p>
+          <p class="error-text"></p>
+          <button class="btn btn-secondary btn-small" type="button" data-retry>Try again</button>
+        </div>
+        <div class="item-grid" data-grid></div>
+        <div class="empty-state" id="borrow-empty">
+          <p><strong>No items match your search.</strong></p>
+          <p>Try a different keyword or choose another category.</p>
+        </div>
+      </div>
+    </section>
+    <section class="section listing-section" id="borrow-mine" aria-labelledby="borrow-mine-title" data-auth-only hidden style="padding-top: 24px;">
+      <div class="container">
+        <h2 class="section-title" id="borrow-mine-title">My Borrow Requests</h2>
+        <p class="section-subtitle">Requests you have sent. <strong>Pending</strong> means the lender has not decided yet; <strong>Approved</strong> reveals the lender&rsquo;s contact for the hand-over.</p>
+        <p class="result-count" aria-live="polite" data-count></p>
+        <div class="loading-state" role="status"><span class="spinner" aria-hidden="true"></span> Loading from the database&hellip;</div>
+        <div class="error-state" role="alert">
+          <p><strong>Could not load this list.</strong></p>
+          <p class="error-text"></p>
+          <button class="btn btn-secondary btn-small" type="button" data-retry>Try again</button>
+        </div>
+        <div class="empty-state">
+          <p><strong>You have not requested any items yet.</strong></p>
+          <p>Use the Request to Borrow button on an available item.</p>
+        </div>
+        <div class="item-grid" data-grid></div>
+      </div>
+    </section>
+    <section class="section listing-section" id="borrow-incoming" aria-labelledby="borrow-incoming-title" data-auth-only hidden style="padding-top: 24px;">
+      <div class="container">
+        <h2 class="section-title" id="borrow-incoming-title">Requests for My Items</h2>
+        <p class="section-subtitle">Students who asked to borrow the items you listed (administrators see every request). Approve one request at a time: an item can be lent to only one borrower.</p>
+        <p class="result-count" aria-live="polite" data-count></p>
+        <div class="loading-state" role="status"><span class="spinner" aria-hidden="true"></span> Loading from the database&hellip;</div>
+        <div class="error-state" role="alert">
+          <p><strong>Could not load this list.</strong></p>
+          <p class="error-text"></p>
+          <button class="btn btn-secondary btn-small" type="button" data-retry>Try again</button>
+        </div>
+        <div class="empty-state">
+          <p><strong>Nobody has requested your items yet.</strong></p>
+          <p>Requests for the items you list will show up here.</p>
+        </div>
+        <div class="item-grid" data-grid></div>
+      </div>
+    </section>
+
+    <dialog class="borrow-dialog" id="borrow-dialog" aria-labelledby="borrow-dialog-title">
+      <form method="dialog" id="borrow-dialog-form" novalidate>
+        <h2 id="borrow-dialog-title">Request to borrow</h2>
+        <p class="dialog-item" id="borrow-dialog-item"></p>
+        <div class="form-group">
+          <label for="borrow-contact">Your contact for the hand-over</label>
+          <input type="text" id="borrow-contact" name="contact" maxlength="120" required>
+          <span class="field-hint">Only the lender (and administrators) can see this.</span>
+          <span class="field-error" role="alert"></span>
+        </div>
+        <div class="form-group" style="margin-top: 14px;">
+          <label for="borrow-message">Message to the lender <span class="optional">(optional)</span></label>
+          <textarea id="borrow-message" name="message" maxlength="300" placeholder="When do you need it? Where can you meet?" style="min-height: 80px;"></textarea>
+        </div>
+        <div class="form-message" role="status" aria-live="polite"></div>
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit" id="borrow-dialog-send">Send Request</button>
+          <button class="btn btn-secondary" type="button" id="borrow-dialog-cancel">Cancel</button>
+        </div>
+      </form>
+    </dialog>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <a href="index.html">Home</a>
+        <a href="lost.html">Lost</a>
+        <a href="found.html">Found</a>
+        <a href="borrow.html">Borrow</a>
+        <a href="lend.html">Lend</a>
+        <a href="scheduler.html">OS Scheduler</a>
+      </div>
+      <p>ReCampus is a college project for VIT Chennai students (Flask + SQLite). The OS features are an application-level simulation.</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="List an item you are willing to lend to other VIT Chennai students.">
+  <title>List an Item to Lend | ReCampus</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%2314452f'/%3E%3Ccircle cx='20' cy='20' r='6' fill='%233ddc97'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/script.js" defer></script>
+</head>
+<body data-page="lend">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar" aria-label="Main navigation">
+        <a class="brand" href="index.html" aria-label="ReCampus home">
+          <svg class="brand-logo" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+            <rect width="40" height="40" rx="11" fill="#14452f"/>
+            <path d="M11.54 16.92A9 9 0 0 1 26.36 13.64" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"/>
+            <polygon points="27.9,12.1 24.8,15.2 28.6,16" fill="#ffffff"/>
+            <path d="M28.46 23.08A9 9 0 0 1 13.64 26.36" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"/>
+            <polygon points="12.1,27.9 15.2,24.8 11.4,24.1" fill="#ffffff"/>
+            <circle cx="20" cy="20" r="3.4" fill="#3ddc97"/>
+          </svg>
+          <span>ReCampus</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Toggle navigation menu">
+          <span></span>
+        </button>
+        <ul class="nav-links" id="site-menu">
+          <li><a href="index.html" data-page="index">Home</a></li>
+          <li><a href="lost.html" data-page="lost">Lost</a></li>
+          <li><a href="found.html" data-page="found">Found</a></li>
+          <li><a href="borrow.html" data-page="borrow">Borrow</a></li>
+          <li><a href="lend.html" data-page="lend">Lend</a></li>
+          <li><a href="scheduler.html" data-page="scheduler">OS Scheduler</a></li>
+        </ul>
+        <div class="nav-auth" id="nav-auth">
+          <a class="btn btn-ghost btn-small" href="signin.html" data-page="signin">Sign In</a>
+          <a class="btn btn-primary btn-small" href="signup.html" data-page="signup">Sign Up</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-header">
+      <div class="container">
+        <a class="back-link" href="index.html">&larr; Back to Home</a>
+        <h1>List an item to lend</h1>
+        <p>Have something other students could use? Describe it and say when it is available.</p>
+      </div>
+    </section>
+    <section class="section" style="padding-top: 8px;">
+      <div class="container">
+        <p class="prototype-note" data-auth-note data-auth-action="list an item"><strong>Checking your sign-in&hellip;</strong></p>
+        <form class="form-card" id="lend-form" data-report-form="listing" data-endpoint="/api/lend" novalidate>
+          <div class="form-grid">
+          <div class="form-group">
+            <label for="lend-name">Item name</label>
+            <input type="text" id="lend-name" name="item_name" placeholder="e.g. Scientific calculator" maxlength="100" required>
+            <span class="field-error" role="alert"></span>
+          </div>
+            <div class="form-group">
+              <label for="lend-category">Category</label>
+              <select id="lend-category" name="category" required>
+              <option value="" disabled selected>Select a category</option>
+              <option>Electronics</option>
+              <option>Books and notes</option>
+              <option>ID cards and wallets</option>
+              <option>Keys</option>
+              <option>Bags</option>
+              <option>Clothing and accessories</option>
+              <option>Stationery</option>
+              <option>Lab equipment</option>
+              <option>Other</option>
+              </select>
+              <span class="field-error" role="alert"></span>
+            </div>
+            <div class="form-group full">
+              <label for="lend-description">Description</label>
+              <textarea id="lend-description" name="description" placeholder="Condition, edition, model or anything a borrower should know" maxlength="1000" required></textarea>
+              <span class="field-error" role="alert"></span>
+            </div>
+            <div class="form-group">
+              <label for="lend-availability">Availability</label>
+              <select id="lend-availability" name="availability" required>
+                <option value="" disabled selected>Select availability</option>
+                <option>Available now</option>
+                <option>Available from next week</option>
+                <option>Weekends only</option>
+                <option>Exam season only</option>
+              </select>
+              <span class="field-error" role="alert"></span>
+            </div>
+            <div class="form-group">
+              <label for="lend-duration">Lending duration</label>
+              <select id="lend-duration" name="duration" required>
+                <option value="" disabled selected>Select duration</option>
+                <option>1 day</option>
+                <option>3 days</option>
+                <option>1 week</option>
+                <option>2 weeks</option>
+                <option>Until the end of the semester</option>
+              </select>
+              <span class="field-error" role="alert"></span>
+            </div>
+          <div class="form-group full">
+            <label for="lend-price">Price in &#8377; <span class="optional">(optional)</span></label>
+            <input type="number" id="lend-price" name="price" placeholder="Leave empty if free" min="0" max="100000" step="1" inputmode="decimal">
+            <span class="field-hint">Only fill this in if you charge a fee.</span>
+            <span class="field-error" role="alert"></span>
+          </div>
+          <div class="form-group full">
+            <label for="lend-image">Image <span class="optional">(optional, PNG/JPG/GIF/WEBP, up to 5 MB)</span></label>
+            <input type="file" id="lend-image" name="image" accept="image/png,image/jpeg,image/gif,image/webp" data-preview="lend-preview">
+            <span class="field-error" role="alert"></span>
+            <img class="image-preview" id="lend-preview" alt="Preview of the selected image">
+          </div>
+          <div class="form-group full">
+            <label for="lend-contact">Contact information</label>
+            <input type="text" id="lend-contact" name="contact" placeholder="VIT email or phone number" maxlength="120" required>
+            <span class="field-hint">Private: shown only to you and to a borrower whose request you approve.</span>
+            <span class="field-error" role="alert"></span>
+          </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">List Item</button>
+          </div>
+          <div class="form-message" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+    <section class="section listing-section" id="lend-listing" aria-labelledby="lend-listing-title" style="padding-top: 24px;">
+      <div class="container">
+        <h2 class="section-title" id="lend-listing-title">Items Available for Lending</h2>
+        <p class="section-subtitle">Every listing is stored in the database. An item is <strong>Available</strong> until a lender approves a request, then <strong>Borrowed</strong> until it is returned.</p>
+        <div class="listing-toolbar">
+          <div class="form-group">
+            <label for="lend-listing-filter">Show</label>
+            <select id="lend-listing-filter" data-status-filter>
+              <option value="all">All items</option>
+              <option value="Available">Available</option>
+              <option value="Borrowed">Borrowed</option>
+            </select>
+          </div>
+          <p class="result-count" aria-live="polite" data-count></p>
+        </div>
+        <div class="loading-state" role="status"><span class="spinner" aria-hidden="true"></span> Loading from the database&hellip;</div>
+        <div class="error-state" role="alert">
+          <p><strong>Could not load this list.</strong></p>
+          <p class="error-text"></p>
+          <button class="btn btn-secondary btn-small" type="button" data-retry>Try again</button>
+        </div>
+        <div class="empty-state">
+          <p><strong>No items have been listed yet.</strong></p>
+          <p>List the first item using the form above.</p>
+        </div>
+        <div class="item-grid" data-grid></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <a href="index.html">Home</a>
+        <a href="lost.html">Lost</a>
+        <a href="found.html">Found</a>
+        <a href="borrow.html">Borrow</a>
+        <a href="lend.html">Lend</a>
+        <a href="scheduler.html">OS Scheduler</a>
+      </div>
+      <p>ReCampus is a college project for VIT Chennai students (Flask + SQLite). The OS features are an application-level simulation.</p>
+    </div>
+  </footer>
+</body>
+</html>

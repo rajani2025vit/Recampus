@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ReCampus helps VIT Chennai students find lost items, report found items, and borrow or lend belongings on campus.">
+  <title>ReCampus | VIT Chennai Student Community</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%2314452f'/%3E%3Ccircle cx='20' cy='20' r='6' fill='%233ddc97'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/script.js" defer></script>
+</head>
+<body data-page="index">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar" aria-label="Main navigation">
+        <a class="brand" href="index.html" aria-label="ReCampus home">
+          <svg class="brand-logo" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+            <rect width="40" height="40" rx="11" fill="#14452f"/>
+            <path d="M11.54 16.92A9 9 0 0 1 26.36 13.64" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"/>
+            <polygon points="27.9,12.1 24.8,15.2 28.6,16" fill="#ffffff"/>
+            <path d="M28.46 23.08A9 9 0 0 1 13.64 26.36" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"/>
+            <polygon points="12.1,27.9 15.2,24.8 11.4,24.1" fill="#ffffff"/>
+            <circle cx="20" cy="20" r="3.4" fill="#3ddc97"/>
+          </svg>
+          <span>ReCampus</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Toggle navigation menu">
+          <span></span>
+        </button>
+        <ul class="nav-links" id="site-menu">
+          <li><a href="index.html" data-page="index">Home</a></li>
+          <li><a href="lost.html" data-page="lost">Lost</a></li>
+          <li><a href="found.html" data-page="found">Found</a></li>
+          <li><a href="borrow.html" data-page="borrow">Borrow</a></li>
+          <li><a href="lend.html" data-page="lend">Lend</a></li>
+          <li><a href="scheduler.html" data-page="scheduler">OS Scheduler</a></li>
+        </ul>
+        <div class="nav-auth" id="nav-auth">
+          <a class="btn btn-ghost btn-small" href="signin.html" data-page="signin">Sign In</a>
+          <a class="btn btn-primary btn-small" href="signup.html" data-page="signup">Sign Up</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-text">
+          <h1>
+            <span class="hero-eyebrow">ReCampus</span>
+            Lost it? Found it? Share it!
+          </h1>
+          <p class="lead">Find lost belongings, report found items, borrow what you need and lend what you don&rsquo;t &mdash; all within your campus community.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="signup.html">Get Started</a>
+            <a class="btn btn-secondary" href="#about">Learn More</a>
+          </div>
+        </div>
+        <div class="hero-image">
+          <img src="/static/assets/vit-chennai.jpg" alt="VIT Chennai campus" width="1200" height="900">
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features" aria-labelledby="features-title">
+      <div class="container">
+        <h2 class="section-title" id="features-title">What would you like to do?</h2>
+        <p class="section-subtitle">Pick a section to get started.</p>
+        <div class="feature-grid">
+          <article class="feature-card lost">
+            <div class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></div>
+            <h3>Lost</h3>
+            <p>Lost something on campus? Report it and search for missing belongings.</p>
+            <a class="btn btn-primary btn-small" href="lost.html">Explore Lost Items</a>
+          </article>
+          <article class="feature-card found">
+            <div class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16.5 9"/></svg></div>
+            <h3>Found</h3>
+            <p>Found an item? Report it and help it reach its rightful owner.</p>
+            <a class="btn btn-primary btn-small" href="found.html">Explore Found Items</a>
+          </article>
+          <article class="feature-card borrow">
+            <div class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 5.5v16"/></svg></div>
+            <h3>Borrow</h3>
+            <p>Find books, calculators and other items available from fellow students.</p>
+            <a class="btn btn-primary btn-small" href="borrow.html">Explore Items to Borrow</a>
+          </article>
+          <article class="feature-card lend">
+            <div class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10l-3-3M17 17H7l3 3"/><path d="M17 7v4M7 17v-4"/></svg></div>
+            <h3>Lend</h3>
+            <p>List items you own and make them available for other students.</p>
+            <a class="btn btn-primary btn-small" href="lend.html">List an Item</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="container">
+        <h2 class="section-title" id="about-title">How ReCampus works</h2>
+        <p class="section-subtitle">A simple space for VIT Chennai students to help each other and reuse what is already on campus.</p>
+        <div class="about-grid">
+          <div class="about-item">
+            <h3>Report</h3>
+            <p>Post a lost or found item with where and when it happened, so the right person can spot it.</p>
+          </div>
+          <div class="about-item">
+            <h3>Browse</h3>
+            <p>Search items other students are willing to lend, filtered by category and availability.</p>
+          </div>
+          <div class="about-item">
+            <h3>Connect</h3>
+            <p>Request an item, get approved by the lender and arrange a hand-over on campus.</p>
+          </div>
+        </div>
+        <p class="prototype-note" style="margin-top: 28px;"><strong>Operating Systems project.</strong> ReCampus also simulates OS ideas at application level: Lost reports are scheduled like processes and lend items are allocated like exclusive resources. See the <a href="scheduler.html">OS Scheduler dashboard</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <a href="index.html">Home</a>
+        <a href="lost.html">Lost</a>
+        <a href="found.html">Found</a>
+        <a href="borrow.html">Borrow</a>
+        <a href="lend.html">Lend</a>
+        <a href="scheduler.html">OS Scheduler</a>
+      </div>
+      <p>ReCampus is a college project for VIT Chennai students (Flask + SQLite). The OS features are an application-level simulation.</p>
+    </div>
+  </footer>
+</body>
+</html>
